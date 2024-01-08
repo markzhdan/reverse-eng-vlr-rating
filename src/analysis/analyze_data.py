@@ -5,24 +5,24 @@
 
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
 
 
+df = pd.read_csv("data/clean/champions2023.csv")
+
 # What goes into VLR.gg rating? (https://www.vlr.gg/160667/vlr-gg-player-rating-explained)
-# KPR, DPR, Trades, Economy (can't add), post-round (maybe kast), apr, ADRa (adr for us), survival (dpr & kast)
-# Final features: KPR, APR, DPR, ADR, KAST
-# Could add: K:D, ACS, fk/fd?
-featureKeys = ["KPR", "APR", "DPR", "ADR", "ACS", "FDPR", "FKPR"]
+# KPR, DPR, Trades (no data), Economy (can't add), post-round (maybe KAST), APR, ADRa, survival rating (DPR & KAST)
+# Final features: KPR, APR, DPR, ADRa, SR, KAST
+# Could add: K:D, ACS, FK/FD?
 
-df = pd.read_csv("data/clean/stats_recent.csv")
-
-target = df["R"]
+featureKeys = ["KPR", "APR", "DPR", "ADRa", "SR", "KAST"]
 features = df[featureKeys]
+target = df["R"]
+
 
 X_train, X_test, y_train, y_test = train_test_split(
-    features, target, random_state=42, test_size=0.1
+    features, target, random_state=3, test_size=0.1
 )
 
 # Linear Regression Model
@@ -36,6 +36,6 @@ formatted_coefficients = ", ".join(f"{coef:.12f}" for coef in model.coef_)
 print(f"Coefficients: [{formatted_coefficients}]")
 print(f"Intercept: {model.intercept_}\n")
 
-print(f"R2 score:{r2_score(y_test, predictions)}")
-print(f"RMSE:{mean_squared_error(y_test, predictions, squared=False)}")
-print(f"MAE:{mean_absolute_error(y_test, predictions)}")
+print(f"R2 score: {r2_score(y_test, predictions)}")
+print(f"RMSE: {mean_squared_error(y_test, predictions, squared=False)}")
+print(f"MAE: {mean_absolute_error(y_test, predictions)}")

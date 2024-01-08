@@ -5,7 +5,7 @@
 ## TLDR
 
 ```python
-VLR Rating ≈ 0.468*KPR + 0.312*APR + -1.154*DPR + 0.004*ADR + -0.0007*ACS + -0.063*FDPR + 0.205*FKPR + 1.001
+VLR Rating ≈ 0.898*KPR + 0.228*APR + -0.434*DPR + 0.0025*ADRa + 0.434*SR + 0.313*KAST + 0.175
 ```
 
 _Full coefficients below_
@@ -27,29 +27,28 @@ The final model that results in the highest degree of accuracy uses the followin
 - Kills Per Round (KPR)
 - Assists Per Round (APR)
 - Deaths Per Round (DPR)
-- Average Damage Per Round (ADR)
-- Average Combat Score (ACS)
-- First Death Per Round (FDPR)
-- First Kill Per Round (FKPR)
+- Average Damage Per Round Adjusted (ADRa)
+- Survival Rating (SR)
+- Kill, Assist, Survived, Traded Rounds (KAST)
 
 These features were fed into a machine learning model to predict player ratings. The model's coefficients and intercept are as follows:
 
-- Coefficients: `[0.467584759836, 0.312158631682, -1.153682762595, 0.003942697956, -0.000725869108, -0.063496102738, 0.204588665932]`
-- Intercept: `1.0013936330345852`
+- Coefficients: `[0.898060946867, 0.227872913948, -0.433940698092, 0.002524365390, 0.433940698092, 0.312874869548]`
+- Intercept: `0.17492523147187433`
 
 So, **VLR Rating ≈**
 
 ```python
-0.467584759836*KPR + 0.312158631682*APR + -1.153682762595*DPR + 0.003942697956*ADR + -0.000725869108*ACS + -0.063496102738*FDPR + 0.204588665932*FKPR + 1.0013936330345852
+0.898060946867*KPR + 0.227872913948*APR + -0.433940698092*DPR + 0.002524365390*ADRa + 0.433940698092*SR + 0.312874869548*KAST + 0.17492523147187433
 ```
 
 ## Model Performance
 
 The model achieved the following metrics on the test set:
 
-- R2 score: `0.9662357787569015`
-- RMSE (Root Mean Squared Error): `0.015609055720644964`
-- MAE (Mean Absolute Error): `0.011419627259488604`
+- R2 score: `0.9856412843860585`
+- RMSE (Root Mean Squared Error): `0.020110865826540265`
+- MAE (Mean Absolute Error): `0.015882295992085477`
 
 ## Testing
 
@@ -57,14 +56,13 @@ The model was tested with statistics from [VALORANT Champions 2023](https://www.
 
 ```python
 Demon1       | Actual: 1.23, Predicted: 1.23, Error: 0.00
-Less         | Actual: 1.16, Predicted: 1.11, Error: 0.05
-aspas        | Actual: 1.15, Predicted: 1.13, Error: 0.03
-cauanzin     | Actual: 1.13, Predicted: 1.10, Error: 0.03
-SUYGETSU     | Actual: 1.10, Predicted: 1.09, Error: 0.01
-jawgemo      | Actual: 1.10, Predicted: 1.09, Error: 0.01
-d4v41        | Actual: 1.08, Predicted: 1.09, Error: -0.01
-cNed         | Actual: 1.08, Predicted: 1.09, Error: -0.01
-something    | Actual: 1.08, Predicted: 1.03, Error: 0.05
+Leo          | Actual: 1.17, Predicted: 1.24, Error: -0.07
+Alfajer      | Actual: 1.17, Predicted: 1.19, Error: -0.02
+Less         | Actual: 1.16, Predicted: 1.12, Error: 0.04
+AAAAY        | Actual: 1.15, Predicted: 1.15, Error: 0.00
+aspas        | Actual: 1.15, Predicted: 1.15, Error: 0.00
+Cloud        | Actual: 1.14, Predicted: 1.10, Error: 0.04
+cauanzin     | Actual: 1.13, Predicted: 1.11, Error: 0.02
 s0m          | Actual: 1.08, Predicted: 1.06, Error: 0.02
 ...
 ```

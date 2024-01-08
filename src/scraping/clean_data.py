@@ -41,6 +41,18 @@ for file in csv_files:
     if "D" in df.columns and "Rnd" in df.columns:
         df["DPR"] = round(df["D"] / df["Rnd"], 3)
 
+    # Calculate ADRa
+    if "ADR" in df.columns and "Rnd" in df.columns and "K" in df.columns:
+        totalDamage = df["ADR"] * df["Rnd"]
+        damagePerKill = 140 * df["K"]
+        ADRa = (totalDamage - damagePerKill) / df["Rnd"]
+        df["ADRa"] = round(ADRa, 3)
+
+    # Calculate survival rating
+    if "Rnd" in df.columns and "D" in df.columns:
+        survivalRating = (df["Rnd"] - df["D"]) / df["Rnd"]
+        df["SR"] = round(survivalRating, 3)
+
     # Remove rows where data is missing
     required_columns = [
         "Player",

@@ -8,15 +8,14 @@ import pandas as pd
 
 def calculate_vlr_rating(*stats):
     coefficients = [
-        0.467584759836,
-        0.312158631682,
-        -1.153682762595,
-        0.003942697956,
-        -0.000725869108,
-        -0.063496102738,
-        0.204588665932,
+        0.898060946867,
+        0.227872913948,
+        -0.433940698092,
+        0.002524365390,
+        0.433940698092,
+        0.312874869548,
     ]
-    intercept = 1.0013936330345852
+    intercept = 0.17492523147187433
 
     rating = sum(coef * stat for coef, stat in zip(coefficients, stats)) + intercept
     return rating
@@ -24,7 +23,7 @@ def calculate_vlr_rating(*stats):
 
 df = pd.read_csv("data/clean/champions2023.csv")
 
-featureKeys = ["KPR", "APR", "DPR", "ADR", "ACS", "FDPR", "FKPR"]
+featureKeys = ["KPR", "APR", "DPR", "ADRa", "SR", "KAST"]
 
 player_name_width = max(len(row["Player"]) for index, row in df.iterrows()) + 2
 
